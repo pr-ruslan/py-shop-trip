@@ -8,8 +8,7 @@ def shop_trip() -> None:
     customers = []
     shops = []
 
-    with open(r"C:\Users\user\PycharmProjects"
-              r"\py-shop-trip\app\config.json", "r") as file:
+    with open("config.json", "r") as file:
         data = json.load(file)
         for customer in data["customers"]:
             customers.append(Customer.create_customer(customer))
@@ -41,8 +40,11 @@ def shop_trip() -> None:
             print(f"{customer.name} doesn't have enough money to make a purchase in any shop")
         else:
             print(f"{customer.name} rides to {chosen_shop.name}\n")
+            customer_home_location = customer.location
+            customer.location = chosen_shop.location
             print(chosen_shop.get_receipt(customer.products, customer.name))
             customer.money -= chosen_cost
             print(f"{customer.name} rides home")
+            customer.location = customer_home_location
             print(f"{customer.name} now has {customer.money} dollars")
 
